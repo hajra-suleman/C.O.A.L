@@ -1,0 +1,39 @@
+org 100h 
+.model small
+.stack 100
+.data
+msg_greater db 'A is greater than B$'
+msg_less db 'A is less than B$'
+msg_equal db 'A is equal to B$'
+.code
+main proc
+
+mov al, 5       ; Value A (you can change this)
+mov bl, 3       ; Value B (you can change this)
+
+cmp al, bl
+jg greater
+jl less
+je equal
+
+greater:
+    mov dx, offset msg_greater
+    jmp display
+
+less:
+    mov dx, offset msg_less
+    jmp display
+
+equal:
+    mov dx, offset msg_equal
+
+display:
+    mov ah, 9
+    int 21h 
+    
+    mov ah, 4ch
+    int 21h
+           
+    main endp
+
+ret
