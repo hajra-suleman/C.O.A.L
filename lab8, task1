@@ -1,0 +1,47 @@
+org 100h
+
+.data
+count db 5                     ; Counter for how many numbers to print
+current_odd db 1               ; Starting with first odd number
+space db ' $'                  ; Space character for separation
+
+.code
+main proc
+    mov ax, @data              ; Initialize data segment
+    mov ds, ax
+    
+    mov cl, [count]            ; CL = number of elements to print (fixed: added brackets)
+    
+print_loop:
+    mov al, [current_odd]      ; Load current odd number (fixed: added brackets)
+    
+    ; Convert number to ASCII and print
+    add al, '0'                ; Convert digit to ASCII
+    mov dl, al                 ; Prepare for DOS print
+    mov ah, 02h                ; DOS function to print character
+    int 21h                    ; Print the digit
+    
+    ; Print space between numbers (except after last one)
+    dec cl                     ; Decrement counter
+    jz exit                    ; If counter is zero, exit
+    
+    ; Print space
+    mov dx, offset space       ; Print space between numbers
+    mov ah, 09h                ; DOS function to print string
+    int 21h
+    
+    ; Calculate next odd number
+    mov al, [current_odd]      ; (fixed: added brackets)
+    add al, 2
+    mov [current_odd], al      ; (fixed: added brackets)
+    
+    jmp print_loop             ; Repeat for next number
+    
+exit:
+    mov ah, 4Ch                ; DOS function to exit program
+    int 21h
+main endp
+
+end main
+
+ret
