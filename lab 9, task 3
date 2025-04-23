@@ -1,0 +1,33 @@
+org 100h
+.model small
+.stack 100
+.data
+even_msg db ' Even$'
+odd_msg db ' Odd$'
+.code 
+main proc
+
+; Input
+mov ah, 1       ; Read character
+int 21h         ; AL = ASCII digit
+sub al, '0'     ; Convert to number
+
+; Check LSB
+test al, 1      ; Sets ZF if even
+jz even
+
+odd:
+    mov dx, offset odd_msg
+    jmp print
+
+even:
+    mov dx, offset even_msg
+
+print:
+    mov ah, 9    ; Print string
+    int 21h
+           
+main endp
+end main
+
+ret
