@@ -1,0 +1,32 @@
+org 100h
+
+; Input
+mov ah, 1       ; Read character function
+int 21h         ; AL = ASCII digit
+sub al, '0'     ; Convert to number
+
+; Check
+cmp al, 0
+jl negative
+je zero
+jg positive
+
+negative:
+    mov dx, offset neg_msg
+    jmp print
+
+zero:
+    mov dx, offset zero_msg
+    jmp print
+
+positive:
+    mov dx, offset pos_msg
+
+print:
+    mov ah, 9    ; Print string
+    int 21h
+    ret
+
+pos_msg db ' Positive$'
+zero_msg db ' Zero$'
+neg_msg db ' Negative$'
