@@ -1,0 +1,29 @@
+
+org 100h
+
+mov cx, 5                                  ; Counter for 5 numbers
+mov bl, 8                                        ; Start with 8 (first even number in reverse)
+
+print_loop:
+                                                ; Print current even number
+    mov dl, bl
+    add dl, '0'                                          ; Convert to ASCII
+    mov ah, 02h
+    int 21h
+    
+                                                             ; Print space (except after last number)
+    dec cx
+    jz exit
+    
+    mov dl, ' '
+    int 21h
+    
+                                                            ; Calculate next even number (subtract 2)
+    sub bl, 2
+    jmp print_loop
+
+exit:
+    mov ah, 4Ch
+    int 21h
+
+ret
