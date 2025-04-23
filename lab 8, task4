@@ -1,0 +1,34 @@
+org 100h
+
+                                                                     ; Input a character
+mov ah, 01h                                                          ; DOS function to read character
+int 21h                                                              ; Character will be in AL
+mov bl, al                                                            ; Store character in BL
+
+                                                                      ; Print newline
+mov dl, 10                                                            ; LF (line feed)
+mov ah, 02h
+int 21h
+mov dl, 13                                                           ; CR (carriage return)
+int 21h
+
+                                                                     ; Print character 10 times
+mov cx, 10                                                           ; Counter for 10 times
+
+print_loop:
+    mov dl, bl                                                   ; Get character from BL
+    mov ah, 02h
+    int 21h
+     
+                                                                 ; Print newline
+    mov dl, 10
+    int 21h
+    mov dl, 13
+    int 21h
+    
+    loop print_loop
+
+mov ah, 4Ch                                                                                                                                                ; Exit program
+int 21h
+
+ret
